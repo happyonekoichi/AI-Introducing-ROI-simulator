@@ -99,20 +99,60 @@
     align-items: start;
   }
 
-  @media (max-width: 768px) {
-    .main-grid { grid-template-columns: 1fr; }
+  /* ── iPad横向き・大型タブレット（1024px以下） ── */
+  @media (max-width: 1024px) {
+    .container { max-width: 100%; padding: 28px 20px 60px; }
+    .kpi-grid { gap: 12px; }
+    .kpi-value { font-size: 22px; }
   }
 
-  /* ── タブレット（768px以下） ── */
+  /* ── iPad縦向き（768〜1024px）：2カラム維持・タッチ最適化 ── */
+  @media (max-width: 1024px) and (min-width: 601px) {
+    .main-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .card, .results-card { padding: 22px 18px; }
+
+    h1 { font-size: 28px; }
+
+    /* スライダーをタッチしやすく */
+    input[type="range"] { height: 6px; }
+    input[type="range"]::-webkit-slider-thumb { width: 24px; height: 24px; }
+
+    /* 数値入力を大きめに */
+    .number-input { width: 100px; font-size: 15px; padding: 8px 10px; }
+
+    .input-label { font-size: 13px; }
+    .input-group { margin-bottom: 22px; }
+
+    .kpi-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .kpi-card { padding: 16px 12px; }
+    .kpi-value { font-size: 20px; }
+    .kpi-label { font-size: 9px; }
+
+    .breakdown { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .breakdown-row { font-size: 13px; padding: 9px 0; }
+
+    .chart-wrap { height: 150px; }
+
+    /* 出力ボタン間隔を広げる */
+    div[style*="justify-content: center"] button { padding: 14px 28px; font-size: 14px; }
+  }
+
+  /* ── iPad縦向き（768px以下）：1カラムに切り替え ── */
   @media (max-width: 768px) {
-    .container { padding: 24px 16px 60px; }
+    .main-grid { grid-template-columns: 1fr; gap: 16px; }
+    .container { padding: 20px 16px 60px; }
 
-    header { margin-bottom: 32px; }
-
+    header { margin-bottom: 28px; }
     h1 { font-size: 26px; }
-    .subtitle { font-size: 13px; }
 
     .card, .results-card { padding: 20px 16px; }
+
+    input[type="range"] { height: 6px; }
+    input[type="range"]::-webkit-slider-thumb { width: 26px; height: 26px; }
+
+    .number-input { font-size: 15px; padding: 8px; }
+    .input-group { margin-bottom: 22px; }
 
     .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
     .kpi-value { font-size: 20px; }
@@ -120,51 +160,34 @@
     .breakdown { grid-template-columns: 1fr; gap: 12px; }
 
     .chart-wrap { height: 140px; }
-
     .neutral-section { padding: 14px; }
   }
 
   /* ── スマートフォン（480px以下） ── */
   @media (max-width: 480px) {
     .container { padding: 16px 12px 60px; }
-
     h1 { font-size: 22px; }
-
     .header-badge { font-size: 9px; letter-spacing: 2px; padding: 4px 10px; }
-
     .card, .results-card { padding: 16px 14px; border-radius: 12px; }
-
     .card-title { font-size: 11px; letter-spacing: 1px; margin-bottom: 16px; }
-
     .section-sub { font-size: 12px; }
-
-    /* スライダーとinputを縦並びに */
     .slider-row { flex-wrap: wrap; gap: 8px; }
     .slider-row input[type="range"] { width: 100%; flex: unset; }
     .number-input { width: 100%; text-align: center; font-size: 15px; padding: 8px; }
-
     .input-label { font-size: 13px; }
     .input-label span { font-size: 13px; font-weight: 700; }
-
     .input-group { margin-bottom: 18px; }
-
     .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .kpi-card { padding: 14px 10px; border-radius: 10px; }
     .kpi-label { font-size: 9px; margin-bottom: 6px; }
     .kpi-value { font-size: 18px; }
     .kpi-unit { font-size: 10px; }
-
     .breakdown-row { font-size: 12px; padding: 7px 0; }
     .breakdown-value { font-size: 12px; }
     .breakdown-total { font-size: 13px; }
-
     .chart-wrap { height: 120px; }
-
-    /* 出力ボタンを縦並びに */
     div[style*="justify-content: center"] { flex-direction: column; align-items: center; }
-
     .note { font-size: 11px; }
-
     .bep-bar-wrap { margin-top: 4px; }
   }
 
