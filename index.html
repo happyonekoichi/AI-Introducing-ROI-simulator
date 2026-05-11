@@ -775,12 +775,11 @@
       <div class="note" style="margin-bottom: 14px;">ポリープ発見件数に連動して差し引かれます（画像の黄色網掛け項目）</div>
 
       <div class="input-group">
-        <div class="input-label">材料費（生検鉗子等）/ 1切除件 <span id="lbl-mat-cost">10,000 円</span></div>
+        <div class="input-label">消耗品費（スネア・クリップ等）/ 1切除件 <span id="lbl-mat-cost">2,500 円</span></div>
         <div class="slider-row">
-          <input type="range" id="sl-mat-cost" min="0" max="80000" value="10000" step="500">
-          <input type="number" class="number-input" id="ni-mat-cost" value="10000" min="0" max="80000" step="500">
+          <input type="range" id="sl-mat-cost" min="0" max="80000" value="2500" step="500">
+          <input type="number" class="number-input" id="ni-mat-cost" value="2500" min="0" max="80000" step="500">
         </div>
-        <div class="note">例: スネア・クリップ等の消耗品費</div>
       </div>
 
       <div class="input-group">
@@ -901,7 +900,7 @@
             <span class="breakdown-value v-orange" id="b-init-amort">—</span>
           </div>
           <div class="breakdown-row">
-            <span class="breakdown-label">材料費（生検鉗子等）</span>
+            <span class="breakdown-label">消耗品費(スネア・クリップ等)</span>
             <span class="breakdown-value v-orange" id="b-mat-cost">—</span>
           </div>
           <div class="breakdown-row">
@@ -909,7 +908,7 @@
             <span class="breakdown-value v-orange" id="b-patho-cost">—</span>
           </div>
           <div class="breakdown-row" id="row-np-cost" style="display:none;">
-            <span class="breakdown-label">集患増患分 材料・病理コスト</span>
+            <span class="breakdown-label">集患増患分 消耗品・病理コスト</span>
             <span class="breakdown-value v-orange" id="b-np-cost">—</span>
           </div>
           <div class="breakdown-total">
@@ -1000,7 +999,7 @@ const state = {
   init: 300000,
   amort: 36,
   rate: 10,
-  matCost: 10000,
+  matCost: 2500,
   pathoCost: 4800,
   newPatients: 0,
   pathoFee: 860,
@@ -1060,7 +1059,7 @@ function compute() {
   const polyRev = polypDiff * s.polypec * s.rate;
   const pathoRevMonthly = polypDiff * (s.pathoFee + s.pathoDiag) * s.rate;
 
-  // 材料費・病理コスト：発見増加分に連動
+  // 消耗品費・病理コスト：発見増加分に連動
   const matCostMonthly = polypDiff * s.matCost;
   const pathoCostMonthly = polypDiff * s.pathoCost;
 
@@ -1329,9 +1328,9 @@ pairs.forEach(([id, sliderStep, numStep, labelFn]) => {
 // Presets
 function applyPreset(type) {
   const presets = {
-    conservative: { cases: 4, days: 210, polypBefore: 30, polypUplift: 4, aiBonus: 60, polypec: 5000, monthly: 400000, init: 800000, amort: 36, rate: 10, matCost: 10000, pathoCost: 4800, newPatients: 0, pathoFee: 860, pathoDiag: 130 },
-    standard:     { cases: 4, days: 210, polypBefore: 35, polypUplift: 7, aiBonus: 60, polypec: 5000, monthly: 80000,  init: 300000, amort: 36, rate: 10, matCost: 10000, pathoCost: 4800, newPatients: 0, pathoFee: 860, pathoDiag: 130 },
-    optimistic:   { cases: 12, days: 260, polypBefore: 40, polypUplift: 10, aiBonus: 60, polypec: 5000, monthly: 250000, init: 300000, amort: 36, rate: 10, matCost: 20000, pathoCost: 4800, newPatients: 10, pathoFee: 860, pathoDiag: 130 },
+    conservative: { cases: 4, days: 210, polypBefore: 30, polypUplift: 4, aiBonus: 60, polypec: 5000, monthly: 400000, init: 800000, amort: 36, rate: 10, matCost: 2500, pathoCost: 4800, newPatients: 0, pathoFee: 860, pathoDiag: 130 },
+    standard:     { cases: 4, days: 210, polypBefore: 35, polypUplift: 7, aiBonus: 60, polypec: 5000, monthly: 80000,  init: 300000, amort: 36, rate: 10, matCost: 2500, pathoCost: 4800, newPatients: 0, pathoFee: 860, pathoDiag: 130 },
+    optimistic:   { cases: 12, days: 260, polypBefore: 40, polypUplift: 10, aiBonus: 60, polypec: 5000, monthly: 250000, init: 300000, amort: 36, rate: 10, matCost: 2500, pathoCost: 4800, newPatients: 10, pathoFee: 860, pathoDiag: 130 },
   };
   const p = presets[type];
   Object.assign(state, p);
@@ -1403,9 +1402,9 @@ function buildExcel(r, s, today) {
     ['項目', '金額（円）'],
     ['月額AI利用料', fmt2(r.monthlyCost)],
     ['初期費用 月次償却', fmt2(r.initAmort)],
-    ['材料費（生検鉗子等）', fmt2(r.matCostMonthly)],
+    ['消耗品費（スネア・クリップ等）', fmt2(r.matCostMonthly)],
     ['病理組織標本作製コスト', fmt2(r.pathoCostMonthly)],
-    ...(s.newPatients > 0 ? [['集患増患分 材料・病理コスト', fmt2(r.npCost)]] : []),
+    ...(s.newPatients > 0 ? [['集患増患分 消耗品・病理コスト', fmt2(r.npCost)]] : []),
     ['合計コスト', fmt2(r.totalCost)],
   ];
 
@@ -1429,7 +1428,7 @@ function buildExcel(r, s, today) {
     ['月額AI利用料', s.monthly, '円/月'],
     ['初期導入費用', s.init, '円'],
     ['初期費用償却期間', s.amort, 'ヶ月'],
-    ['材料費（生検鉗子等）/件', s.matCost, '円'],
+    ['消耗品費（スネア・クリップ等）/件', s.matCost, '円'],
     ['病理組織標本作製コスト/件', s.pathoCost, '円'],
     ['月間増患数', s.newPatients, '人/月'],
     ['保険点数換算', s.rate, '円/点'],
@@ -1493,7 +1492,7 @@ function openSummary() {
   const netColor = r.netMonthly >= 0 ? '#059669' : '#dc2626';
   const npSign   = r.netMonthly >= 0 ? '+' : '';
   const npRevRow  = s.newPatients > 0 ? '<tr><td>④ 集患効果収益（' + s.newPatients + '人/月）</td><td class="num gr">¥' + f(r.npRev) + '</td><td class="num gr">¥' + f(r.npRev*12) + '</td></tr>' : '';
-  const npCostRow = s.newPatients > 0 ? '<tr><td>集患増患分 材料・病理コスト</td><td class="num rd">¥' + f(r.npCost) + '</td><td class="num rd">¥' + f(r.npCost*12) + '</td></tr>' : '';
+  const npCostRow = s.newPatients > 0 ? '<tr><td>集患増患分 消耗品・病理コスト</td><td class="num rd">¥' + f(r.npCost) + '</td><td class="num rd">¥' + f(r.npCost*12) + '</td></tr>' : '';
 
   const html = '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">'
     + '<title>内視鏡AI ROI サマリー</title>'
@@ -1583,7 +1582,7 @@ function openSummary() {
     + '<tr class="total-row"><td>合計収益</td><td class="num gr">¥' + f(r.totalRev) + '</td><td class="num gr">¥' + f(annualRev) + '</td></tr>'
     + '<tr><td style="padding-top:6px">月額 AI 利用料</td><td class="num rd">¥' + f(r.monthlyCost) + '</td><td class="num rd">¥' + f(r.monthlyCost*12) + '</td></tr>'
     + '<tr><td>初期費用 月次償却（¥' + f(s.init) + ' ÷ ' + s.amort + 'ヶ月）</td><td class="num rd">¥' + f(r.initAmort) + '</td><td class="num rd">¥' + f(r.initAmort*12) + '</td></tr>'
-    + '<tr><td>材料費（生検鉗子等）</td><td class="num rd">¥' + f(r.matCostMonthly) + '</td><td class="num rd">¥' + f(r.matCostMonthly*12) + '</td></tr>'
+    + '<tr><td>消耗品費（スネア・クリップ等）</td><td class="num rd">¥' + f(r.matCostMonthly) + '</td><td class="num rd">¥' + f(r.matCostMonthly*12) + '</td></tr>'
     + '<tr><td>病理組織標本作製コスト</td><td class="num rd">¥' + f(r.pathoCostMonthly) + '</td><td class="num rd">¥' + f(r.pathoCostMonthly*12) + '</td></tr>'
     + npCostRow
     + '<tr class="total-row"><td>合計コスト</td><td class="num rd">¥' + f(r.totalCost) + '</td><td class="num rd">¥' + f(annualCost) + '</td></tr>'
